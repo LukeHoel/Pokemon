@@ -5,6 +5,7 @@
 std::string images("resources/images/");
 Sprite *grassSprite, *playerUpSprite, *playerDownSprite, *playerLeftSprite,
     *playerRightSprite;
+    Animation testAnimation;
 void InitializeResources() {
   // Main tileset spritesheets
   olc::Sprite *fireRedTileset1SpriteSheet = new olc::Sprite(images + "fireRedTileset1.png");
@@ -17,6 +18,7 @@ void InitializeResources() {
   playerDownSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 36, tileSize, 20);
   playerLeftSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
+  testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
 }
 #endif
 // clang-format on

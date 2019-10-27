@@ -9,12 +9,13 @@ int playerSpeed = 70;
 // The imports need to be in proper order
 // clang-format off
 olc::PixelGameEngine *context;
-#include "Camera/Camera.h"
+#include "Camera.h"
 Camera camera;
-#include "Sprite/Sprite.h"
+#include "Sprite.h"
+#include "Animation.h"
 #include "Resources.h"
-#include "OverworldEntity/OverworldEntity.h"
-#include "Tile/Tile.h"
+#include "OverworldEntity.h"
+#include "Tile.h"
 // clang-format on
 class Frontend : public olc::PixelGameEngine {
 
@@ -37,7 +38,7 @@ public:
     return true;
   }
 
-  bool OnUserUpdate(float fElapsedTime) override {
+  bool OnUserUpdate(float deltaTime) override {
     Clear(olc::BLACK);
     // int drawnCount = 0;
     for (int i = 0; i < 50; i++) {
@@ -53,20 +54,21 @@ public:
     }
     // std::cout << "This many tiles have been drawn: " << drawnCount <<
     // std::endl;
+    testAnimation.Draw(10, 10, deltaTime);
     SetPixelMode(olc::Pixel::MASK);
     player.Draw();
     if (GetKey(olc::Key::UP).bHeld) {
-      player.y += playerSpeed * fElapsedTime;
+      player.y += playerSpeed * deltaTime;
       player.direction = OverworldEntity::Direction::UP;
     } else if (GetKey(olc::Key::DOWN).bHeld) {
-      player.y -= playerSpeed * fElapsedTime;
+      player.y -= playerSpeed * deltaTime;
       player.direction = OverworldEntity::Direction::DOWN;
     }
     if (GetKey(olc::Key::LEFT).bHeld) {
-      player.x += playerSpeed * fElapsedTime;
+      player.x += playerSpeed * deltaTime;
       player.direction = OverworldEntity::Direction::LEFT;
     } else if (GetKey(olc::Key::RIGHT).bHeld) {
-      player.x -= playerSpeed * fElapsedTime;
+      player.x -= playerSpeed * deltaTime;
       player.direction = OverworldEntity::Direction::RIGHT;
     }
     camera.x = player.x;
