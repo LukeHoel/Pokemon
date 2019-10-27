@@ -3,9 +3,25 @@
 #define resources_h
 #include <string>
 std::string images("resources/images/");
-Sprite *grassSprite, *playerUpSprite, *playerDownSprite, *playerLeftSprite,
-    *playerRightSprite, *battleStageSprite;
-    Animation testAnimation;
+// Tiles
+Sprite *grassSprite;
+// Player
+Sprite  *playerUpSprite,
+        *playerDownSprite,
+        *playerLeftSprite,
+        *playerRightSprite;
+// Battle backgrounds
+Sprite  *whiteBattleBackgroundSprite,
+        *grassBattleBackgroundSprite,
+        *waterBattleBackgroundSprite,
+        *rockBattleBackgroundSprite,
+        *pondBattleBackgroundSprite,
+        *blueBattleBackgroundSprite,
+        *yellowBattleBackgroundSprite,
+        *purpleBattleBackgroundSprite,
+        *greenBattleBackgroundSprite,
+        *pearlBattleBackgroundSprite;
+Animation testAnimation;
 void InitializeResources() {
   // Main tileset spritesheets
   olc::Sprite *fireRedTileset1SpriteSheet = new olc::Sprite(images + "fireRedTileset1.png");
@@ -19,8 +35,22 @@ void InitializeResources() {
   playerLeftSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
   testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
-  // Battle background
-  battleStageSprite = new Sprite(fireRedPlayerSpriteSheet, 108, 472, 88,24);
+  // Battle backgrounds
+  olc::Sprite *fireRedBattleBackgroundsSpriteSheet = new olc::Sprite(images+"fireRedBattleBackgrounds.png");
+  // Row 1
+  whiteBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 6, 6, 240, 112);
+  grassBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 249, 6, 240, 112);
+  waterBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 492, 6, 240, 112);
+  // Row 2
+  rockBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  6, 121, 240, 112);
+  pondBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  249, 121, 240, 112);
+  blueBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  492, 121, 240, 112);
+  // Row 3
+  yellowBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 6, 235, 240, 112);
+  purpleBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  249, 235, 240, 112);
+  greenBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  492, 235, 240, 112);
+  // Row 4
+  pearlBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  6, 349, 240, 112);
 }
 #endif
 // clang-format on

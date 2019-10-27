@@ -5,7 +5,7 @@
 int infoWidth = 100;
 int healthBarWidth = infoWidth - 2;
 int infoHeight = 30;
-int textAreaHeight = 50;
+int textAreaHeight = 48;
 
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background
@@ -21,8 +21,7 @@ void drawPokemonInfo(int x, int y, Pokemon pokemon) {
 }
 void drawBattle(float deltaTime) {
   // Draw battle stages
-  battleStageSprite->Draw(amountPixelsX - 20 - battleStageSprite->width(), 40);
-  battleStageSprite->Draw(20, amountPixelsY - battleStageSprite->height() - 40);
+  grassBattleBackgroundSprite->Draw(0, 0);
   // Info area for each pokemon
   drawPokemonInfo(amountPixelsX - infoWidth,
                   amountPixelsY - textAreaHeight - infoHeight,
