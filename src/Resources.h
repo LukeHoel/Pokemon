@@ -4,7 +4,7 @@
 #include <string>
 std::string images("resources/images/");
 Sprite *grassSprite, *playerUpSprite, *playerDownSprite, *playerLeftSprite,
-    *playerRightSprite;
+    *playerRightSprite, *battleStageSprite;
     Animation testAnimation;
 void InitializeResources() {
   // Main tileset spritesheets
@@ -19,6 +19,8 @@ void InitializeResources() {
   playerLeftSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
   testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
+  // Battle background
+  battleStageSprite = new Sprite(fireRedPlayerSpriteSheet, 108, 472, 88,24);
 }
 #endif
 // clang-format on

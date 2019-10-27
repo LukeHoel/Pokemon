@@ -41,4 +41,6 @@ struct OverworldEntity {
                  y - camera.y + amountPixelsY / 2);
   }
 };
+// Special player entity
+OverworldEntity player;
 #endif

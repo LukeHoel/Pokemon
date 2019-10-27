@@ -5,4 +5,5 @@ struct Tile {
   Tile(Sprite *sprite = nullptr) : sprite(sprite) {}
   void Draw(int x, int y) { sprite->Draw(x, y); }
 };
+Tile tiles[50][50];
 #endif

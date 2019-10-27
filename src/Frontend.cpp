@@ -9,25 +9,23 @@ int playerSpeed = 70;
 // The imports need to be in proper order
 // clang-format off
 olc::PixelGameEngine *context;
-#include "Camera.h"
-Camera camera;
+enum Mode { OVERWORLD, BATTLE };
+Mode mode = OVERWORLD;
 #include "Sprite.h"
 #include "Animation.h"
 #include "Resources.h"
-#include "OverworldEntity.h"
-#include "Tile.h"
+#include "Overworld/Tile.h"
+#include "Overworld/Overworld.h"
 // clang-format on
 class Frontend : public olc::PixelGameEngine {
 
 public:
   Frontend() { sAppName = "Frontend"; }
-  Tile tile[50][50];
-  OverworldEntity player;
   bool OnUserCreate() override {
     InitializeResources();
     for (int i = 0; i < 50; i++) {
       for (int o = 0; o < 50; o++) {
-        tile[i][o] = Tile(grassSprite);
+        tiles[i][o] = Tile(grassSprite);
       }
     }
     player.drawCentered = true;
@@ -38,41 +36,30 @@ public:
     return true;
   }
 
+  void drawBattle(float deltaTime) {
+    // Draw battle stages
+    battleStageSprite->Draw(amountPixelsX - 20 - battleStageSprite->width(),
+                            40);
+    battleStageSprite->Draw(20,
+                            amountPixelsY - battleStageSprite->height() - 40);
+    // Info area for pokemon (to be replaced with parameters later)
+    context->FillRect(0, 0, 100, 40, olc::WHITE);
+    context->FillRect(amountPixelsX - 100, amountPixelsY - 90, 100, 40,
+                      olc::WHITE);
+    // Text area
+    context->FillRect(0, amountPixelsY - 50, amountPixelsX, 50, olc::DARK_BLUE);
+  }
+
   bool OnUserUpdate(float deltaTime) override {
     Clear(olc::BLACK);
-    // int drawnCount = 0;
-    for (int i = 0; i < 50; i++) {
-      for (int o = 0; o < 50; o++) {
-        int xLocation = i * tileSize;
-        int yLocation = o * tileSize;
-        // Don't draw every tile, only needed ones
-        if (camera.isObjectVisible(xLocation, yLocation, tileSize, tileSize)) {
-          tile[i][o].Draw(xLocation + camera.x, yLocation + camera.y);
-          // drawnCount++;
-        }
-      }
+    switch (mode) {
+    case (Mode::OVERWORLD):
+      drawOverworld(deltaTime);
+      break;
+    case (Mode::BATTLE):
+      drawBattle(deltaTime);
+      break;
     }
-    // std::cout << "This many tiles have been drawn: " << drawnCount <<
-    // std::endl;
-    testAnimation.Draw(10, 10, deltaTime);
-    SetPixelMode(olc::Pixel::MASK);
-    player.Draw();
-    if (GetKey(olc::Key::UP).bHeld) {
-      player.y += playerSpeed * deltaTime;
-      player.direction = OverworldEntity::Direction::UP;
-    } else if (GetKey(olc::Key::DOWN).bHeld) {
-      player.y -= playerSpeed * deltaTime;
-      player.direction = OverworldEntity::Direction::DOWN;
-    }
-    if (GetKey(olc::Key::LEFT).bHeld) {
-      player.x += playerSpeed * deltaTime;
-      player.direction = OverworldEntity::Direction::LEFT;
-    } else if (GetKey(olc::Key::RIGHT).bHeld) {
-      player.x -= playerSpeed * deltaTime;
-      player.direction = OverworldEntity::Direction::RIGHT;
-    }
-    camera.x = player.x;
-    camera.y = player.y;
     return true;
   }
 };
