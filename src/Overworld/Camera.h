@@ -13,6 +13,6 @@ struct Camera {
            insideBottomBound;
   }
 };
-// Make an instance of the camera for use in the overworl
+// Make an instance of the camera for use in the overworld
 Camera camera;
 #endif

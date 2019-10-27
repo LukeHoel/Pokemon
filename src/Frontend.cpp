@@ -16,6 +16,7 @@ Mode mode = OVERWORLD;
 #include "Resources.h"
 #include "Overworld/Tile.h"
 #include "Overworld/Overworld.h"
+#include "Battle/Battle.h"
 // clang-format on
 class Frontend : public olc::PixelGameEngine {
 
@@ -33,21 +34,11 @@ public:
     player.downSprite = playerDownSprite;
     player.leftSprite = playerLeftSprite;
     player.rightSprite = playerRightSprite;
+    playerCurrentPokemon.maxHP = 60;
+    playerCurrentPokemon.HP = 40;
+    opposingCurrentPokemon.maxHP = 12;
+    opposingCurrentPokemon.HP = 10;
     return true;
-  }
-
-  void drawBattle(float deltaTime) {
-    // Draw battle stages
-    battleStageSprite->Draw(amountPixelsX - 20 - battleStageSprite->width(),
-                            40);
-    battleStageSprite->Draw(20,
-                            amountPixelsY - battleStageSprite->height() - 40);
-    // Info area for pokemon (to be replaced with parameters later)
-    context->FillRect(0, 0, 100, 40, olc::WHITE);
-    context->FillRect(amountPixelsX - 100, amountPixelsY - 90, 100, 40,
-                      olc::WHITE);
-    // Text area
-    context->FillRect(0, amountPixelsY - 50, amountPixelsX, 50, olc::DARK_BLUE);
   }
 
   bool OnUserUpdate(float deltaTime) override {
