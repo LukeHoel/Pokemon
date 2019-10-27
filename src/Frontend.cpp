@@ -26,7 +26,7 @@ public:
     InitializeResources();
     for (int i = 0; i < 50; i++) {
       for (int o = 0; o < 50; o++) {
-        tile[i][o] = Tile(placeholderSprite);
+        tile[i][o] = Tile(grassSprite);
       }
     }
     player.drawCentered = true;
