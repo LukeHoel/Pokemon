@@ -18,6 +18,11 @@ public:
       : innerSprite(sprite), usePartial(true), partialX(partialX),
         partialY(partialY), partialWidth(partialWidth),
         partialHeight(partialHeight) {}
+  // Take the other sprite and copy the references, possibly changing the partial values
+  Sprite(Sprite *other, int partialX, int partialY, int partialWidth,
+         int partialHeight)
+      : innerSprite(other->innerSprite), partialX(partialX), partialY(partialY),
+        partialWidth(partialWidth), partialHeight(partialHeight) {}
 
   ~Sprite() { delete innerSprite; }
   void Draw(int x, int y, int scale = 1) {
@@ -61,6 +66,18 @@ public:
             innerSprite->GetPixel(partialX + i, partialY + o));
       }
     }
+    return ret;
+  }
+  // Return this same sprite, only with different points shown
+  Sprite *getPartial(int partialX, int partialY, int partialWidth,
+                     int partialHeight) {
+    Sprite *ret = new Sprite();
+    ret->innerSprite = this->innerSprite;
+    ret->usePartial = true;
+    ret->partialX = partialX;
+    ret->partialY = partialY;
+    ret->partialWidth = partialWidth;
+    ret->partialHeight = partialHeight;
     return ret;
   }
 };

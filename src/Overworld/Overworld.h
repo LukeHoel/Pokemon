@@ -35,9 +35,10 @@ void movePlayer(float deltaTime) {
 }
 
 void drawOverworld(float deltaTime) {
+  context->SetPixelMode(olc::Pixel::NORMAL);
   drawTiles();
-  testAnimation.Draw(10, 10, deltaTime);
   context->SetPixelMode(olc::Pixel::MASK);
+  testAnimation.Draw(10, 10, deltaTime);
   player.Draw();
   movePlayer(deltaTime);
   if (context->GetKey(olc::Key::ENTER).bPressed) {

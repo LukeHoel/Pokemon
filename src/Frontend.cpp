@@ -13,7 +13,7 @@ enum Mode { OVERWORLD, BATTLE };
 Mode mode = OVERWORLD;
 #include "Sprite.h"
 #include "Animation.h"
-#include "Resources.h"
+#include "Resources/Resources.h"
 #include "Overworld/Tile.h"
 #include "Overworld/Overworld.h"
 #include "Battle/Battle.h"
@@ -23,7 +23,7 @@ class Frontend : public olc::PixelGameEngine {
 public:
   Frontend() { sAppName = "Frontend"; }
   bool OnUserCreate() override {
-    InitializeResources();
+    LoadResources();
     for (int i = 0; i < 50; i++) {
       for (int o = 0; o < 50; o++) {
         tiles[i][o] = Tile(grassSprite);
@@ -36,8 +36,10 @@ public:
     player.rightSprite = playerRightSprite;
     playerCurrentPokemon.maxHP = 60;
     playerCurrentPokemon.HP = 40;
+    playerCurrentPokemon.name = "PIKACHU";
     opposingCurrentPokemon.maxHP = 12;
     opposingCurrentPokemon.HP = 10;
+    opposingCurrentPokemon.name = "CHARMANDER";
     return true;
   }
 
@@ -46,6 +48,7 @@ public:
     switch (mode) {
     case (Mode::OVERWORLD):
       drawOverworld(deltaTime);
+      DrawSpriteString("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,", 1, 30, fireRedBattleEffectFont);
       break;
     case (Mode::BATTLE):
       drawBattle(deltaTime);
