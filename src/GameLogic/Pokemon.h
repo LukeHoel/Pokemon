@@ -6,7 +6,8 @@ struct Pokemon {
   std::string name;
   float maxHP = 0;
   float HP = 0;
-  Sprite *battleSprite;
+  Sprite *playerBattleSprite;
+  Sprite *opposingBattleSprite;
 };
 // Placeholders for battles
 Pokemon playerCurrentPokemon;

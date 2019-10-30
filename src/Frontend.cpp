@@ -36,10 +36,14 @@ public:
     player.rightSprite = playerRightSprite;
     playerCurrentPokemon.maxHP = 60;
     playerCurrentPokemon.HP = 40;
-    playerCurrentPokemon.name = "PIKACHU";
+    playerCurrentPokemon.name = "BULBASAUR";
+    playerCurrentPokemon.playerBattleSprite = fireRedPokemonSpriteSheet->getPartial(75,17,45,32);
+    playerCurrentPokemon.opposingBattleSprite = fireRedPokemonSpriteSheet->getPartial(15,16,34,33);
     opposingCurrentPokemon.maxHP = 12;
     opposingCurrentPokemon.HP = 10;
     opposingCurrentPokemon.name = "CHARMANDER";
+    opposingCurrentPokemon.playerBattleSprite = fireRedPokemonSpriteSheet->getPartial(235,12, 47,43);
+    opposingCurrentPokemon.opposingBattleSprite = fireRedPokemonSpriteSheet->getPartial(176,13, 35,39);
     return true;
   }
 

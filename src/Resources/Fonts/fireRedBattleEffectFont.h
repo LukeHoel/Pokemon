@@ -1,13 +1,10 @@
-#ifndef fonts_h
-#define fonts_h
-#include "../Sprite.h"
-#include <string>
-#include <unordered_map>
-typedef std::unordered_map<char, Sprite *> SpriteFont;
+#ifndef fireredbattleeffectfont_h
+#define fireredbattleeffectfont_h
+#include "../Font.h"
 SpriteFont fireRedBattleEffectFont;
-void LoadFonts() {
+void LoadFireRedBattleEffectFont() {
   Sprite *fireRedBattleEffectFontSpriteSheet =
-      new Sprite(images + "fireRedBattleEffects.png");
+      new Sprite(spriteSheets + "fireRedBattleEffects.png");
   int firstLine = 124;
   int fontWidth = 5;
   int fontHeight = 8;
@@ -41,15 +38,5 @@ void LoadFonts() {
   fireRedBattleEffectFont['Z'] = fireRedBattleEffectFontSpriteSheet->getPartial(343,firstLine,fontWidth,fontHeight);
   fireRedBattleEffectFont['.'] = fireRedBattleEffectFontSpriteSheet->getPartial(351,firstLine,fontWidth-2,fontHeight);
   fireRedBattleEffectFont[','] = fireRedBattleEffectFontSpriteSheet->getPartial(358,firstLine,fontWidth-2,fontHeight+1);
-}
-void DrawSpriteString(std::string str, int x, int y, SpriteFont &font) {
-  int xOffset = 0;
-  for (char &ch : str) {
-    Sprite *sprite = font[ch];
-    if (sprite != nullptr) {
-      sprite->Draw(x + xOffset, y);
-      xOffset += sprite->width();
-    }
-  }
 }
 #endif

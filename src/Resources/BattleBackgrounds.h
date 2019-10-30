@@ -7,7 +7,7 @@ Sprite *whiteBattleBackgroundSprite, *grassBattleBackgroundSprite,
     *greenBattleBackgroundSprite, *pearlBattleBackgroundSprite;
 void LoadBattleBackgrounds(){
   // Battle backgrounds
-  olc::Sprite *fireRedBattleBackgroundsSpriteSheet = new olc::Sprite(images+"fireRedBattleBackgrounds.png");
+  olc::Sprite *fireRedBattleBackgroundsSpriteSheet = new olc::Sprite(spriteSheets+"fireRedBattleBackgrounds.png");
   // Row 1
   whiteBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 6, 6, 240, 112);
   grassBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 249, 6, 240, 112);
