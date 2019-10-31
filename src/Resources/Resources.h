@@ -5,6 +5,8 @@
 std::string spriteSheets("resources/spriteSheets/");
 #include "BattleBackgrounds.h"
 #include "Fonts/fireRedBattleEffectFont.h"
+#include "../GameLogic/Pokedex.h"
+#include "../GameLogic/Pokemon.h"
 // Tiles
 Sprite *grassSprite;
 // Player
