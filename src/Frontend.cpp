@@ -34,22 +34,11 @@ public:
     player.downSprite = playerDownSprite;
     player.leftSprite = playerLeftSprite;
     player.rightSprite = playerRightSprite;
-    // Add available pokemon
-    Pokemon* bulbasaur = new Pokemon(""); 
-    bulbasaur->name = "BULBASAUR";
-    bulbasaur->playerBattleSprite = fireRedPokemonSpriteSheet->getPartial(75,17,45,32);
-    bulbasaur->opposingBattleSprite = fireRedPokemonSpriteSheet->getPartial(15,16,34,33);
-    pokedex.availablePokemon["BULBASAUR"] = bulbasaur;
-    Pokemon* charmander = new Pokemon(""); 
-    charmander->name = "CHARMANDER";
-    charmander->playerBattleSprite = fireRedPokemonSpriteSheet->getPartial(235,12, 47,43);
-    charmander->opposingBattleSprite = fireRedPokemonSpriteSheet->getPartial(176,13, 35,39);
-    pokedex.availablePokemon["CHARMANDER"] = charmander;
     // Register the current pokemon
-    playerCurrentPokemon = Pokemon("BULBASAUR");
+    playerCurrentPokemon = Pokemon("charmander");
     playerCurrentPokemon.maxHP = 100;
     playerCurrentPokemon.HP = 70;
-    opposingCurrentPokemon = Pokemon("CHARMANDER");
+    opposingCurrentPokemon = Pokemon("squirtle");
     opposingCurrentPokemon.maxHP = 20;
     opposingCurrentPokemon.HP = 10;
     return true;

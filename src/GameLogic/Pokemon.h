@@ -5,8 +5,24 @@
 #include "Pokedex.h"
 #include <string>
 struct Pokemon {
+  // When created in pokedex
   Pokemon(Config config){
-
+    name = config.map["name"];
+    Sprite* spriteSheet = spriteSheetStore[config.map["spritesheet"]];
+    if(spriteSheet != nullptr){
+      playerBattleSprite = spriteSheet->getPartial(
+        std::stoi(config.map["playerx"]),
+        std::stoi(config.map["playery"]),
+        std::stoi(config.map["playerwidth"]),
+        std::stoi(config.map["playerheight"])
+      );
+      opposingBattleSprite = spriteSheet->getPartial(
+        std::stoi(config.map["opposingx"]),
+        std::stoi(config.map["opposingy"]),
+        std::stoi(config.map["opposingwidth"]),
+        std::stoi(config.map["opposingheight"])
+      );
+    }
   }
   Pokemon(std::string name){
     // Make sure the pokemon name is valid

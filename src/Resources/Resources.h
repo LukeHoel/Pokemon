@@ -2,6 +2,7 @@
 #ifndef resources_h
 #define resources_h
 #include <string>
+#include <unordered_map>
 std::string spriteSheets("resources/spriteSheets/");
 #include "BattleBackgrounds.h"
 #include "Fonts/fireRedBattleEffectFont.h"
@@ -16,9 +17,20 @@ Sprite  *playerUpSprite,
         *playerRightSprite;
 // Battle backgrounds
 Animation testAnimation;
+
+// Set up sprite sheet store (using sprite sheet store)
+Config spriteSheetConfig("config/spriteSheets.config");
+// Set up pokemon store (using the pokedex)
+Config pokedexConfig("config/pokedex.config");
 // Pokemon sprites
 Sprite* fireRedPokemonSpriteSheet; 
 void LoadResources() {
+  // Get the sprite sheet config and put it into the mapping
+  for(std::string spriteKeyName: spriteSheetConfig.keys){ spriteSheetStore[spriteKeyName] = new Sprite(spriteSheetConfig.map[spriteKeyName]); }
+  // Get the pokemon configs
+  for(std::string pokemonKeyName: pokedexConfig.keys) { 
+    pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig.map[pokemonKeyName]));
+  }
   // Main tileset spritesheets
   olc::Sprite *fireRedTileset1SpriteSheet = new olc::Sprite(spriteSheets + "fireRedTileset1.png");
   olc::Sprite *fireRedTileset2SpriteSheetSpriteSheet = new olc::Sprite(spriteSheets + "fireRedTileset2.png");
@@ -31,8 +43,6 @@ void LoadResources() {
   playerLeftSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
   testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
-  // Pokemon spritesheet
-  fireRedPokemonSpriteSheet = new Sprite(spriteSheets+"fireRedBattleSpritesGen1.png");
   LoadBattleBackgrounds();
   LoadFireRedBattleEffectFont();
 }

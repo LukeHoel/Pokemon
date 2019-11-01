@@ -1,6 +1,7 @@
 #ifndef sprite_h
 #define sprite_h
 #include <string>
+#include "Config/Config.h"
 class Sprite {
   bool usePartial = false;
   int partialX;
@@ -80,5 +81,17 @@ public:
     ret->partialHeight = partialHeight;
     return ret;
   }
+  Sprite *getPartial(Config config) {
+    return getPartial(
+      std::stoi(config.map["partialx"]),
+      std::stoi(config.map["partialy"]),
+      std::stoi(config.map["partialwidth"]),
+      std::stoi(config.map["partialheight"])
+    );
+  }
 };
+
+// Centalized store for spritesheets to be used everywhere
+std::unordered_map<std::string, Sprite*> spriteSheetStore;
+
 #endif

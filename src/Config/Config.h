@@ -3,8 +3,10 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 struct Config{
   std::unordered_map<std::string, std::string> map;
+  std::vector<std::string> keys;
   // Go through each line and extract out a config object
   // It uses the first equals sign in the line to switch from key mode to value mode.
   // Values can have equals signs in them, while keys cannot
@@ -20,6 +22,7 @@ struct Config{
         // Save the config item
         if(foundEquals && !key.empty() && !value.empty()){
           map[key] = value;
+          keys.push_back(key);
         }
         key = value = "";
         foundEquals = false;
@@ -30,6 +33,7 @@ struct Config{
     // Save the last config item
     if(foundEquals && !key.empty() && !value.empty()){
       map[key] = value;
+      keys.push_back(key);
     }
     ifs.close();
   }
