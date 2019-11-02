@@ -38,7 +38,7 @@ public:
     playerCurrentPokemon = Pokemon("charmander");
     playerCurrentPokemon.maxHP = 100;
     playerCurrentPokemon.HP = 70;
-    opposingCurrentPokemon = Pokemon("squirtle");
+    opposingCurrentPokemon = Pokemon("bulbasaur");
     opposingCurrentPokemon.maxHP = 20;
     opposingCurrentPokemon.HP = 10;
     return true;

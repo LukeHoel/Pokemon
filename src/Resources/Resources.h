@@ -28,9 +28,9 @@ void LoadResources() {
   // Get the sprite sheet config and put it into the mapping
   for(std::string spriteKeyName: spriteSheetConfig.keys){ spriteSheetStore[spriteKeyName] = new Sprite(spriteSheetConfig.map[spriteKeyName]); }
   // Get the pokemon configs
-  for(std::string pokemonKeyName: pokedexConfig.keys) { 
-    pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig.map[pokemonKeyName]));
-  }
+  for(std::string pokemonKeyName: pokedexConfig.keys) { pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig.map[pokemonKeyName])); }
+  LoadBattleBackgrounds();
+  LoadFireRedBattleEffectFont();
   grassSprite = spriteSheetStore["tileset1"]->getPartial(6, 64, tileSize, tileSize);
   // Player spritesheet
   playerUpSprite = spriteSheetStore["player"]->getPartial(24, 68, tileSize, 20);
@@ -38,8 +38,7 @@ void LoadResources() {
   playerLeftSprite = spriteSheetStore["player"]->getPartial(24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
   testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
-  LoadBattleBackgrounds();
-  LoadFireRedBattleEffectFont();
+
 }
 #endif
 // clang-format on
