@@ -83,10 +83,10 @@ public:
   }
   Sprite *getPartial(Config config) {
     return getPartial(
-      std::stoi(config.map["partialx"]),
-      std::stoi(config.map["partialy"]),
-      std::stoi(config.map["partialwidth"]),
-      std::stoi(config.map["partialheight"])
+      std::stoi(config["partialx"]),
+      std::stoi(config["partialy"]),
+      std::stoi(config["partialwidth"]),
+      std::stoi(config["partialheight"])
     );
   }
 };

@@ -7,20 +7,20 @@
 struct Pokemon {
   // When created in pokedex
   Pokemon(Config config){
-    name = config.map["name"];
-    Sprite* spriteSheet = spriteSheetStore[config.map["spritesheet"]];
+    name = config["name"];
+    Sprite* spriteSheet = spriteSheetStore[config["spritesheet"]];
     if(spriteSheet != nullptr){
       playerBattleSprite = spriteSheet->getPartial(
-        std::stoi(config.map["playerx"]),
-        std::stoi(config.map["playery"]),
-        std::stoi(config.map["playerwidth"]),
-        std::stoi(config.map["playerheight"])
+        std::stoi(config["playerx"]),
+        std::stoi(config["playery"]),
+        std::stoi(config["playerwidth"]),
+        std::stoi(config["playerheight"])
       );
       opposingBattleSprite = spriteSheet->getPartial(
-        std::stoi(config.map["opposingx"]),
-        std::stoi(config.map["opposingy"]),
-        std::stoi(config.map["opposingwidth"]),
-        std::stoi(config.map["opposingheight"])
+        std::stoi(config["opposingx"]),
+        std::stoi(config["opposingy"]),
+        std::stoi(config["opposingwidth"]),
+        std::stoi(config["opposingheight"])
       );
     }
   }
