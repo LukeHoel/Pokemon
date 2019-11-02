@@ -31,16 +31,11 @@ void LoadResources() {
   for(std::string pokemonKeyName: pokedexConfig.keys) { 
     pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig.map[pokemonKeyName]));
   }
-  // Main tileset spritesheets
-  olc::Sprite *fireRedTileset1SpriteSheet = new olc::Sprite(spriteSheets + "fireRedTileset1.png");
-  olc::Sprite *fireRedTileset2SpriteSheetSpriteSheet = new olc::Sprite(spriteSheets + "fireRedTileset2.png");
-  olc::Sprite *fireRedTileset2 = new olc::Sprite(spriteSheets + "fireRedTileset3.png");
-  grassSprite = new Sprite(fireRedTileset1SpriteSheet, 6, 64, tileSize, tileSize);
+  grassSprite = spriteSheetStore["tileset1"]->getPartial(6, 64, tileSize, tileSize);
   // Player spritesheet
-  olc::Sprite *fireRedPlayerSpriteSheet = new olc::Sprite(spriteSheets + "fireRedPlayer.png");
-  playerUpSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 68, tileSize, 20);
-  playerDownSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 36, tileSize, 20);
-  playerLeftSprite = new Sprite(fireRedPlayerSpriteSheet, 24, 100, tileSize, 20);
+  playerUpSprite = spriteSheetStore["player"]->getPartial(24, 68, tileSize, 20);
+  playerDownSprite = spriteSheetStore["player"]->getPartial(24, 36, tileSize, 20);
+  playerLeftSprite = spriteSheetStore["player"]->getPartial(24, 100, tileSize, 20);
   playerRightSprite = playerLeftSprite->flipAlongYAxis();
   testAnimation = Animation(5, {playerUpSprite, playerRightSprite, playerDownSprite, playerLeftSprite});
   LoadBattleBackgrounds();

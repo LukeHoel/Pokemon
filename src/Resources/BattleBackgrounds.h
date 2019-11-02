@@ -6,21 +6,19 @@ Sprite *whiteBattleBackgroundSprite, *grassBattleBackgroundSprite,
     *yellowBattleBackgroundSprite, *purpleBattleBackgroundSprite,
     *greenBattleBackgroundSprite, *pearlBattleBackgroundSprite;
 void LoadBattleBackgrounds(){
-  // Battle backgrounds
-  olc::Sprite *fireRedBattleBackgroundsSpriteSheet = new olc::Sprite(spriteSheets+"fireRedBattleBackgrounds.png");
-  // Row 1
-  whiteBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 6, 6, 240, 112);
-  grassBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 249, 6, 240, 112);
-  waterBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 492, 6, 240, 112);
+   // Row 1
+  whiteBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(6, 6, 240, 112);
+  grassBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(249, 6, 240, 112);
+  waterBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(492, 6, 240, 112);
   // Row 2
-  rockBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  6, 121, 240, 112);
-  pondBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  249, 121, 240, 112);
-  blueBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  492, 121, 240, 112);
+  rockBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(6, 121, 240, 112);
+  pondBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(249, 121, 240, 112);
+  blueBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(492, 121, 240, 112);
   // Row 3
-  yellowBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet, 6, 235, 240, 112);
-  purpleBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  249, 235, 240, 112);
-  greenBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  492, 235, 240, 112);
+  yellowBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(6, 235, 240, 112);
+  purpleBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(249, 235, 240, 112);
+  greenBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(492, 235, 240, 112);
   // Row 4
-  pearlBattleBackgroundSprite = new Sprite(fireRedBattleBackgroundsSpriteSheet,  6, 349, 240, 112);
+  pearlBattleBackgroundSprite = spriteSheetStore["battlebackground"]->getPartial(6, 349, 240, 112);
 }
 #endif
