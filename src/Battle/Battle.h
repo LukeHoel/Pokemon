@@ -12,13 +12,8 @@ int playerPokemonBaseY = amountPixelsY - textAreaHeight;
 int opposingPokemonBaseX = amountPixelsX - 60;
 int opposingPokemonBaseY = 65;
 
-Menu battleMainMenu(&fireRedBattleEffectFont, {
-  "FIGHT",
-  "BAG",
-  "POKEMON",
-  "RUN"
-});
-
+Menu battleMainMenu(&fireRedBattleEffectFont,
+                    {"FIGHT", "BAG", "POKEMON", "RUN"});
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background
   context->FillRect(x, y, infoWidth, infoHeight, olc::WHITE);
@@ -45,14 +40,18 @@ void drawBattle(float deltaTime) {
       playerPokemonBaseX - playerCurrentPokemon.playerBattleSprite->width() / 2,
       playerPokemonBaseY - playerCurrentPokemon.playerBattleSprite->height());
   opposingCurrentPokemon.opposingBattleSprite->Draw(
-      opposingPokemonBaseX - opposingCurrentPokemon.opposingBattleSprite->width() / 2,
-      opposingPokemonBaseY - opposingCurrentPokemon.opposingBattleSprite->height());
+      opposingPokemonBaseX -
+          opposingCurrentPokemon.opposingBattleSprite->width() / 2,
+      opposingPokemonBaseY -
+          opposingCurrentPokemon.opposingBattleSprite->height());
   // Text area
   context->FillRect(0, amountPixelsY - textAreaHeight, amountPixelsX - 1,
                     textAreaHeight - 1, olc::GREY);
   context->DrawRect(0, amountPixelsY - textAreaHeight, amountPixelsX - 1,
                     textAreaHeight - 1, olc::DARK_GREY);
-  battleMainMenu.Draw(amountPixelsX-40,amountPixelsY - textAreaHeight + 5);
-
+  battleMainMenu.Draw(amountPixelsX - 40, amountPixelsY - textAreaHeight + 5);
+}
+void getBattleInput() {
+battleMainMenu.active = true;
 }
 #endif

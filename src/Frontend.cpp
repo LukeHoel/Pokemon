@@ -53,6 +53,7 @@ public:
       break;
     case (Mode::BATTLE):
       drawBattle(deltaTime);
+      getBattleInput();
       break;
     }
     return true;
