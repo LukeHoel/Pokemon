@@ -32,8 +32,11 @@ public:
       DrawSpriteString(menuItems[i], x, y + yOffset, *spriteFont);
       yOffset += itemYSpacing;
       if (active && i == selectedIndex) {
-        context->DrawCircle(x - 5, y + yOffset - 2 - itemYSpacing / 2, 2,
-                            olc::DARK_GREY);
+        int circleRadius = 2;
+        int circleX = x - 5;
+        int circleY = y + yOffset - circleRadius - itemYSpacing / 2;
+        context->FillCircle(circleX, circleY, circleRadius, olc::WHITE);
+        context->DrawCircle(circleX, circleY, circleRadius, olc::DARK_GREY);
       }
     }
     if (active) {
