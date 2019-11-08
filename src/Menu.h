@@ -15,9 +15,14 @@ class Menu {
 public:
   SpriteFont *spriteFont;
   std::vector<MenuItem> menuItems;
+  Menu(){}
   Menu(SpriteFont *spriteFont, std::initializer_list<MenuItem> menuItems)
       : spriteFont(spriteFont), menuItems(menuItems) {}
   bool active = false;
+  void Reset(){
+    active = false;
+    selectedIndex = 0;
+  }
   void Previous() {
     selectedIndex--;
     if (selectedIndex < 0) {

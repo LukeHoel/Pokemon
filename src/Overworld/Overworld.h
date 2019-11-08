@@ -3,6 +3,7 @@
 #include "../Sprite.h"
 #include "Camera.h"
 #include "OverworldEntity.h"
+#include "../Battle/Battle.h"
 
 void drawTiles() {
   for (int i = 0; i < 50; i++) {
@@ -42,7 +43,7 @@ void drawOverworld(float deltaTime) {
   player.Draw();
   movePlayer(deltaTime);
   if (context->GetKey(olc::Key::ENTER).bPressed) {
-    mode = Mode::BATTLE;
+    StartBattle();
   }
   // Camera follow
   camera.x = player.x;
