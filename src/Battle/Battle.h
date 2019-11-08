@@ -12,8 +12,12 @@ int playerPokemonBaseY = amountPixelsY - textAreaHeight;
 int opposingPokemonBaseX = amountPixelsX - 60;
 int opposingPokemonBaseY = 65;
 
+void Run(){
+  mode = Mode::OVERWORLD;
+}
+
 Menu battleMainMenu(&fireRedBattleEffectFont,
-                    {"FIGHT", "BAG", "POKEMON", "RUN"});
+                    {{"FIGHT"}, {"BAG"}, {"POKEMON"}, {"RUN", &Run}});
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background
   context->FillRect(x, y, infoWidth, infoHeight, olc::WHITE);
@@ -51,7 +55,5 @@ void drawBattle(float deltaTime) {
                     textAreaHeight - 1, olc::DARK_GREY);
   battleMainMenu.Draw(amountPixelsX - 40, amountPixelsY - textAreaHeight + 5);
 }
-void getBattleInput() {
-battleMainMenu.active = true;
-}
+void getBattleInput() { battleMainMenu.active = true; }
 #endif

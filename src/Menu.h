@@ -4,13 +4,18 @@
 #include <initializer_list>
 #include <string>
 #include <vector>
+void noop(){}
+struct MenuItem{
+  std::string displayName;
+  void (*onSelect)() = &noop;
+};
 class Menu {
   int selectedIndex = 0;
 
 public:
   SpriteFont *spriteFont;
-  std::vector<std::string> menuItems;
-  Menu(SpriteFont *spriteFont, std::initializer_list<std::string> menuItems)
+  std::vector<MenuItem> menuItems;
+  Menu(SpriteFont *spriteFont, std::initializer_list<MenuItem> menuItems)
       : spriteFont(spriteFont), menuItems(menuItems) {}
   bool active = false;
   void Previous() {
@@ -29,7 +34,7 @@ public:
 
     int yOffset = 0;
     for (size_t i = 0; i < menuItems.size(); i++) {
-      DrawSpriteString(menuItems[i], x, y + yOffset, *spriteFont);
+      DrawSpriteString(menuItems[i].displayName, x, y + yOffset, *spriteFont);
       yOffset += itemYSpacing;
       if (active && i == selectedIndex) {
         int circleRadius = 2;
@@ -46,6 +51,9 @@ public:
       }
       if (context->GetKey(olc::DOWN).bPressed) {
         Next();
+      }
+      if(context->GetKey(olc::ENTER).bPressed){
+        menuItems[selectedIndex].onSelect();
       }
     }
   }
