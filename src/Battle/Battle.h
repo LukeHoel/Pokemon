@@ -1,6 +1,7 @@
 #ifndef battle_h
 #define battle_h
 #include "../GameLogic/Pokemon.h"
+#include "../Menu.h"
 
 int infoWidth = 100;
 int healthBarWidth = infoWidth - 2;
@@ -10,6 +11,13 @@ int playerPokemonBaseX = 50;
 int playerPokemonBaseY = amountPixelsY - textAreaHeight;
 int opposingPokemonBaseX = amountPixelsX - 60;
 int opposingPokemonBaseY = 65;
+
+Menu battleMainMenu(&fireRedBattleEffectFont, {
+  "FIGHT",
+  "BAG",
+  "POKEMON",
+  "RUN"
+});
 
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background
@@ -44,5 +52,7 @@ void drawBattle(float deltaTime) {
                     textAreaHeight - 1, olc::GREY);
   context->DrawRect(0, amountPixelsY - textAreaHeight, amountPixelsX - 1,
                     textAreaHeight - 1, olc::DARK_GREY);
+  battleMainMenu.Draw(amountPixelsX-40,amountPixelsY - textAreaHeight + 5);
+
 }
 #endif
