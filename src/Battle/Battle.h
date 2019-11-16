@@ -30,9 +30,14 @@ void StartBattle() {
   battleMainMenu = Menu(&fireRedBattleEffectFont,
                         {{"FIGHT", Fight}, {"BAG"}, {"POKEMON"}, {"RUN", Run}});
   battleMainMenu.active = true;
-  playerFightMenu =
-      Menu(&fireRedBattleEffectFont,
-           {{"MOVE 1"}, {"MOVE 2"}, {"MOVE 3"}, {"MOVE 4"}, {"BACK", Back}});
+  std::vector<MenuItem> moves;
+
+  for(Move* move: playerCurrentPokemon.availableMoves){
+    moves.push_back({move->name});
+  }
+  moves.push_back({"BACK", Back});
+  playerFightMenu = Menu(&fireRedBattleEffectFont,moves);
+
 }
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background

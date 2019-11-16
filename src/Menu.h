@@ -18,6 +18,8 @@ public:
   Menu(){}
   Menu(SpriteFont *spriteFont, std::initializer_list<MenuItem> menuItems)
       : spriteFont(spriteFont), menuItems(menuItems) {}
+  Menu(SpriteFont *spriteFont, std::vector<MenuItem> menuItems)
+    : spriteFont(spriteFont), menuItems(menuItems) {}
   bool active = false;
   void Reset(){
     active = false;

@@ -35,10 +35,10 @@ public:
     player.leftSprite = playerLeftSprite;
     player.rightSprite = playerRightSprite;
     // Register the current pokemon
-    playerCurrentPokemon = Pokemon("charmander");
+    playerCurrentPokemon = Pokemon("bulbasaur");
     playerCurrentPokemon.maxHP = 100;
     playerCurrentPokemon.HP = 70;
-    opposingCurrentPokemon = Pokemon("bulbasaur");
+    opposingCurrentPokemon = Pokemon("squirtle");
     opposingCurrentPokemon.maxHP = 20;
     opposingCurrentPokemon.HP = 10;
     return true;
