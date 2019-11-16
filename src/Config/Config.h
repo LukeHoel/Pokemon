@@ -2,6 +2,7 @@
 #define config_h
 #include "../Helper.h"
 #include <fstream>
+#include <initializer_list>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -14,12 +15,14 @@ class Config {
       keys.push_back(keyName);
     }
   }
+
 public:
   std::vector<std::string> keys;
   // Go through each line and extract out a config object
   // It uses the first equals sign in the line to switch from key mode to value
   // mode. Values can have equals signs in them, while keys cannot
-  Config(std::string fileName) {
+  Config(std::string fileName,
+         std::vector<std::string> requiredKeys = {}) {
     std::ifstream ifs(fileName);
     // Don't skip whitespace
     ifs >> std::noskipws;
@@ -46,7 +49,18 @@ public:
       addToMap(key, value);
     }
     ifs.close();
+    // Make sure that the config object has the required keys, throw error
+    // otherwise
+    if (requiredKeys.size() > 0) {
+      for (const std::string &key : requiredKeys) {
+        if (map.find(key) == map.end()) {
+          throw std::invalid_argument("Key " + key + " missing!");
+        }
+      }
+    }
   }
-  std::string &operator[](const std::string &key) { return map[stringToLower(key)]; }
+  std::string &operator[](const std::string &key) {
+    return map[stringToLower(key)];
+  }
 };
 #endif

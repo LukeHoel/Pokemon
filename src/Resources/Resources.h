@@ -28,7 +28,14 @@ void LoadResources() {
   // Get the sprite sheet config and put it into the mapping
   for(std::string spriteKeyName: spriteSheetConfig.keys){ spriteSheetStore[spriteKeyName] = new Sprite(spriteSheetConfig[spriteKeyName]); }
   // Get the pokemon configs
-  for(std::string pokemonKeyName: pokedexConfig.keys) { pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig[pokemonKeyName])); }
+  for(std::string pokemonKeyName: pokedexConfig.keys) { 
+    pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig[pokemonKeyName],
+      {
+        playerXKey, playerYKey, playerWidthKey, playerHeightKey,
+        opposingXKey, opposingYKey, opposingWidthKey, opposingHeightKey
+      }
+    )); 
+    }
   LoadBattleBackgrounds();
   LoadFireRedBattleEffectFont();
   grassSprite = spriteSheetStore["tileset1"]->getPartial(6, 64, tileSize, tileSize);
