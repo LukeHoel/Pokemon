@@ -35,14 +35,12 @@ public:
     player.leftSprite = playerLeftSprite;
     player.rightSprite = playerRightSprite;
     // Register the current pokemon
-    playerCurrentPokemon = Pokemon("bulbasaur");
+    playerCurrentPokemon = Pokemon("charmander");
     playerCurrentPokemon.level = 20;
-    playerCurrentPokemon.maxHP = 100;
-    playerCurrentPokemon.HP = 70;
-    opposingCurrentPokemon = Pokemon("squirtle");
+    playerCurrentPokemon.HP = playerCurrentPokemon.maxHP()/2;
+    opposingCurrentPokemon = Pokemon("bulbasaur");
     opposingCurrentPokemon.level = 20;
-    opposingCurrentPokemon.maxHP = 100;
-    opposingCurrentPokemon.HP = 70;
+    opposingCurrentPokemon.HP = opposingCurrentPokemon.maxHP();
     return true;
   }
 
@@ -51,7 +49,7 @@ public:
     switch (mode) {
     case (Mode::OVERWORLD):
       drawOverworld(deltaTime);
-      DrawSpriteString("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,", 1, 30, fireRedBattleEffectFont);
+      DrawSpriteString("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,0123456789", 1, 30, fireRedBattleEffectFont);
       break;
     case (Mode::BATTLE):
       drawBattle(deltaTime);

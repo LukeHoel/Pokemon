@@ -14,25 +14,6 @@ int opposingPokemonBaseY = 65;
 Menu battleMainMenu;
 Menu playerFightMenu;
 
-void attack(Move &attackingMove, Pokemon &attackingPokemon,
-            Pokemon &defendingPokemon) {
-  if (attackingMove.category == status) {
-  } else {
-    float effectiveAttack = attackingMove.category == physical
-                                ? attackingPokemon.physicalAttack
-                                : attackingPokemon.specialAttack;
-    float effectiveDefence = attackingMove.category == physical
-                                 ? attackingPokemon.physicalAttack
-                                 : attackingPokemon.specialAttack;
-    float calculationStep1 = ((float)(2 * attackingPokemon.level)) / 5 + 2;
-    float calculationStep2 = ((calculationStep1 * attackingMove.power *
-                               (effectiveAttack / effectiveDefence)));
-    float calculationStep3 = (calculationStep2 / 50) + 2;
-    // Will need step 4 here to take into account the environmental and chance
-    // factors
-    defendingPokemon.HP -= calculationStep3;
-  }
-}
 void Run() { mode = Mode::OVERWORLD; }
 
 void Fight() {
@@ -54,7 +35,7 @@ void StartBattle() {
 
   for (Move *move : playerCurrentPokemon.availableMoves) {
     auto function = [move](void) {
-      attack(*move, playerCurrentPokemon, opposingCurrentPokemon);
+      playerCurrentPokemon.attack(opposingCurrentPokemon, *move);
     };
     MenuItem item;
     item.displayName = move->name;
@@ -73,11 +54,9 @@ void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // Grey background to bar
   context->FillRect(x + 1, y + 10, healthBarWidth, 3, olc::DARK_GREY);
   // Health bar (show as percentage of max)
-  if (pokemon.HP > 0 && pokemon.maxHP > 0) {
-    context->FillRect(x + 1, y + 10,
-                      healthBarWidth * (pokemon.HP / pokemon.maxHP), 3,
-                      olc::DARK_GREEN);
-  }
+  context->FillRect(x + 1, y + 10,
+                    healthBarWidth * (pokemon.HP / pokemon.maxHP()), 3,
+                    olc::DARK_GREEN);
 }
 void drawBattle(float deltaTime) {
   // Draw battle stages

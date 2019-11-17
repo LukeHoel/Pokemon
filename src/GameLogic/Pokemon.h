@@ -8,8 +8,8 @@
 const std::string pokemonNameKey = "name";
 const std::string pokemonHealthPointsKey = "healthpoints";
 const std::string pokemonPhysicalAttackKey = "physicalattack";
-const std::string pokemonSpecialAttackKey = "specialattack";
 const std::string pokemonPhysicalDefenceKey = "physicaldefence";
+const std::string pokemonSpecialAttackKey = "specialattack";
 const std::string pokemonSpecialDefenceKey = "specialdefence";
 const std::string pokemonSpeedKey = "speed";
 // Keys for player spritesheet coordinates
@@ -48,12 +48,12 @@ struct Pokemon {
       throw std::invalid_argument("Invalid pokemon configuration");
     }
     name = config[pokemonNameKey];
-    healthPoints = std::stoi(config[pokemonHealthPointsKey]);
-    physicalAttack = std::stoi(config[pokemonPhysicalAttackKey]);
-    specialAttack = std::stoi(config[pokemonSpecialAttackKey]);
-    physicalDefence = std::stoi(config[pokemonPhysicalDefenceKey]);
-    specicialDefence = std::stoi(config[pokemonSpecialDefenceKey]);
-    speed = std::stoi(config[pokemonSpeedKey]);
+    healthPointsBaseStat = std::stoi(config[pokemonHealthPointsKey]);
+    physicalAttackBaseStat = std::stoi(config[pokemonPhysicalAttackKey]);
+    specialAttackBaseStat = std::stoi(config[pokemonSpecialAttackKey]);
+    physicalDefenceBaseStat = std::stoi(config[pokemonPhysicalDefenceKey]);
+    specicialDefenceBaseStat = std::stoi(config[pokemonSpecialDefenceKey]);
+    speedBaseStat = std::stoi(config[pokemonSpeedKey]);
 
     Sprite *spriteSheet = spriteSheetStore[config["spritesheet"]];
     if (spriteSheet != nullptr) {
@@ -85,16 +85,72 @@ struct Pokemon {
       playerBattleSprite = config.playerBattleSprite;
       opposingBattleSprite = config.opposingBattleSprite;
       availableMoves = config.availableMoves;
+      healthPointsBaseStat = config.healthPointsBaseStat;
+      physicalAttackBaseStat = config.physicalAttackBaseStat;
+      specialAttackBaseStat = config.specialAttackBaseStat;
+      physicalDefenceBaseStat = config.physicalDefenceBaseStat;
+      specicialDefenceBaseStat = config.specicialDefenceBaseStat;
+      speedBaseStat = config.speedBaseStat;
     }
   }
+  void attack(Pokemon &defendingPokemon, Move &attackingMove) {
+    if (attackingMove.category == status) {
+    } else {
+      float effectiveAttack = attackingMove.category == physical
+                                  ? physicalAttack()
+                                  : specialAttack();
+      float effectiveDefence = attackingMove.category == physical
+                                   ? defendingPokemon.physicalDefence()
+                                   : defendingPokemon.specialDefence();
+      float calculationStep1 = ((float)(2 * level)) / 5 + 2;
+      float calculationStep2 = ((calculationStep1 * attackingMove.power *
+                                 (effectiveAttack / effectiveDefence)));
+      float calculationStep3 = (calculationStep2 / 50) + 2;
+      // Add other factors as they come
+      float randomVariance = (float)((rand() % 15) + 85) / 100;
+      float calculationStep4 = calculationStep3 * randomVariance;
+      defendingPokemon.HP -= calculationStep4;
+    }
+  }
+
+  float calculateGenericStat(int baseStat, int individualValue = 0,
+                             int effortValue = 0) {
+    float step1 =
+        (2 * baseStat + individualValue + (effortValue / 4.00)) * level;
+    return step1 / 100.00;
+  }
+  float natureModifier() { return 1; }
+
+  int maxHP() {
+    return floor(calculateGenericStat(healthPointsBaseStat) + level + 10);
+  }
+  int physicalAttack() {
+    return (calculateGenericStat(physicalAttackBaseStat) + 5) *
+           natureModifier();
+  }
+  int physicalDefence() {
+    return (calculateGenericStat(physicalDefenceBaseStat) + 5) *
+           natureModifier();
+  }
+  int specialAttack() {
+    return (calculateGenericStat(specialAttackBaseStat) + 5) * natureModifier();
+  }
+  int specialDefence() {
+    return (calculateGenericStat(specicialDefenceBaseStat) + 5) *
+           natureModifier();
+  }
+  int speed() {
+    return (calculateGenericStat(speedBaseStat) + 5) * natureModifier();
+  }
+
   std::string name;
-  // stats
-  int healthPoints;
-  int physicalAttack;
-  int specialAttack;
-  int physicalDefence;
-  int specicialDefence;
-  int speed;
+  // base stats
+  int healthPointsBaseStat;
+  int physicalAttackBaseStat;
+  int specialAttackBaseStat;
+  int physicalDefenceBaseStat;
+  int specicialDefenceBaseStat;
+  int speedBaseStat;
   // In battle stats
   int evasion = 100;
   int accuracy = 100;
@@ -103,7 +159,6 @@ struct Pokemon {
   std::vector<Move *> availableMoves;
   // For an instance of a pokemon
   int level = 1;
-  float maxHP = 0;
   float HP = 0;
 };
 // Placeholders for battles
