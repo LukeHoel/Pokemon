@@ -6,6 +6,7 @@ void LoadFireRedBattleEffectFont() {
   Sprite *fireRedBattleEffectFontSpriteSheet =
       new Sprite(spriteSheets + "fireRedBattleEffects.png");
   int firstLine = 124;
+  int numbersLine = 159;
   int fontWidth = 5;
   int fontHeight = 8;
   // First Line
@@ -38,5 +39,16 @@ void LoadFireRedBattleEffectFont() {
   fireRedBattleEffectFont['Z'] = fireRedBattleEffectFontSpriteSheet->getPartial(343,firstLine,fontWidth,fontHeight);
   fireRedBattleEffectFont['.'] = fireRedBattleEffectFontSpriteSheet->getPartial(351,firstLine,fontWidth-2,fontHeight);
   fireRedBattleEffectFont[','] = fireRedBattleEffectFontSpriteSheet->getPartial(358,firstLine,fontWidth-2,fontHeight+1);
-}
+  // Numbers
+  fireRedBattleEffectFont['0'] = fireRedBattleEffectFontSpriteSheet->getPartial(171,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['1'] = fireRedBattleEffectFontSpriteSheet->getPartial(179,numbersLine,fontWidth-1,fontHeight);
+  fireRedBattleEffectFont['2'] = fireRedBattleEffectFontSpriteSheet->getPartial(185,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['3'] = fireRedBattleEffectFontSpriteSheet->getPartial(192,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['4'] = fireRedBattleEffectFontSpriteSheet->getPartial(199,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['5'] = fireRedBattleEffectFontSpriteSheet->getPartial(206,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['6'] = fireRedBattleEffectFontSpriteSheet->getPartial(213,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['7'] = fireRedBattleEffectFontSpriteSheet->getPartial(220,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['8'] = fireRedBattleEffectFontSpriteSheet->getPartial(227,numbersLine,fontWidth,fontHeight);
+  fireRedBattleEffectFont['9'] = fireRedBattleEffectFontSpriteSheet->getPartial(234,numbersLine,fontWidth,fontHeight);
+}  
 #endif

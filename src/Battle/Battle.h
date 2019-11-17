@@ -13,6 +13,26 @@ int opposingPokemonBaseX = amountPixelsX - 60;
 int opposingPokemonBaseY = 65;
 Menu battleMainMenu;
 Menu playerFightMenu;
+
+void attack(Move &attackingMove, Pokemon &attackingPokemon,
+            Pokemon &defendingPokemon) {
+  if (attackingMove.category == status) {
+  } else {
+    float effectiveAttack = attackingMove.category == physical
+                                ? attackingPokemon.physicalAttack
+                                : attackingPokemon.specialAttack;
+    float effectiveDefence = attackingMove.category == physical
+                                 ? attackingPokemon.physicalAttack
+                                 : attackingPokemon.specialAttack;
+    float calculationStep1 = ((float)(2 * attackingPokemon.level)) / 5 + 2;
+    float calculationStep2 = ((calculationStep1 * attackingMove.power *
+                               (effectiveAttack / effectiveDefence)));
+    float calculationStep3 = (calculationStep2 / 50) + 2;
+    // Will need step 4 here to take into account the environmental and chance
+    // factors
+    defendingPokemon.HP -= calculationStep3;
+  }
+}
 void Run() { mode = Mode::OVERWORLD; }
 
 void Fight() {
@@ -32,17 +52,24 @@ void StartBattle() {
   battleMainMenu.active = true;
   std::vector<MenuItem> moves;
 
-  for(Move* move: playerCurrentPokemon.availableMoves){
-    moves.push_back({move->name});
+  for (Move *move : playerCurrentPokemon.availableMoves) {
+    auto function = [move](void) {
+      attack(*move, playerCurrentPokemon, opposingCurrentPokemon);
+    };
+    MenuItem item;
+    item.displayName = move->name;
+    item.onSelect = function;
+    moves.push_back({move->name, function});
   }
   moves.push_back({"BACK", Back});
-  playerFightMenu = Menu(&fireRedBattleEffectFont,moves);
-
+  playerFightMenu = Menu(&fireRedBattleEffectFont, moves);
 }
 void drawPokemonInfo(int x, int y, Pokemon pokemon) {
   // White background
   context->FillRect(x, y, infoWidth, infoHeight, olc::WHITE);
   DrawSpriteString(pokemon.name, x + 1, y + 1, fireRedBattleEffectFont);
+  DrawSpriteString(std::to_string(pokemon.level), x + infoWidth - 20, y + 1,
+                   fireRedBattleEffectFont);
   // Grey background to bar
   context->FillRect(x + 1, y + 10, healthBarWidth, 3, olc::DARK_GREY);
   // Health bar (show as percentage of max)
@@ -76,11 +103,9 @@ void drawBattle(float deltaTime) {
                     textAreaHeight - 1, olc::DARK_GREY);
   if (battleMainMenu.active) {
     battleMainMenu.Draw(amountPixelsX - 40, amountPixelsY - textAreaHeight + 5);
-  }
-  else if (playerFightMenu.active) {
-    playerFightMenu.Draw(amountPixelsX - 40,
-                         amountPixelsY - textAreaHeight + 2, 9);
+  } else if (playerFightMenu.active) {
+    playerFightMenu.Draw(amountPixelsX - 40, amountPixelsY - textAreaHeight + 2,
+                         9);
   }
 }
-void getBattleInput() {}
 #endif

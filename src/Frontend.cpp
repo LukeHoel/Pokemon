@@ -36,11 +36,13 @@ public:
     player.rightSprite = playerRightSprite;
     // Register the current pokemon
     playerCurrentPokemon = Pokemon("bulbasaur");
+    playerCurrentPokemon.level = 20;
     playerCurrentPokemon.maxHP = 100;
     playerCurrentPokemon.HP = 70;
     opposingCurrentPokemon = Pokemon("squirtle");
-    opposingCurrentPokemon.maxHP = 20;
-    opposingCurrentPokemon.HP = 10;
+    opposingCurrentPokemon.level = 20;
+    opposingCurrentPokemon.maxHP = 100;
+    opposingCurrentPokemon.HP = 70;
     return true;
   }
 
@@ -53,7 +55,6 @@ public:
       break;
     case (Mode::BATTLE):
       drawBattle(deltaTime);
-      getBattleInput();
       break;
     }
     return true;

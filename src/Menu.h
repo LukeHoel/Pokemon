@@ -4,10 +4,9 @@
 #include <initializer_list>
 #include <string>
 #include <vector>
-void noop(){}
 struct MenuItem{
   std::string displayName;
-  void (*onSelect)() = &noop;
+  std::function<void(void)> onSelect = [](){};
 };
 class Menu {
   int selectedIndex = 0;

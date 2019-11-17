@@ -4,8 +4,14 @@
 #include "../Sprite.h"
 #include "Pokedex.h"
 #include <string>
-// Keys for basic pokemon data
+// Keys for pokemon stats
 const std::string pokemonNameKey = "name";
+const std::string pokemonHealthPointsKey = "healthpoints";
+const std::string pokemonPhysicalAttackKey = "physicalattack";
+const std::string pokemonSpecialAttackKey = "specialattack";
+const std::string pokemonPhysicalDefenceKey = "physicaldefence";
+const std::string pokemonSpecialDefenceKey = "specialdefence";
+const std::string pokemonSpeedKey = "speed";
 // Keys for player spritesheet coordinates
 const std::string pokemonPlayerXKey = "playerx";
 const std::string pokemonPlayerYKey = "playery";
@@ -18,9 +24,23 @@ const std::string pokemonOpposingWidthKey = "opposingwidth";
 const std::string pokemonOpposingHeightKey = "opposingheight";
 // Required inputs
 std::initializer_list<std::string> pokemonRequiredKeys = {
-    pokemonPlayerXKey,       pokemonPlayerYKey,       pokemonPlayerWidthKey,
-    pokemonPlayerHeightKey,  pokemonOpposingXKey,     pokemonOpposingYKey,
-    pokemonOpposingWidthKey, pokemonOpposingHeightKey};
+    pokemonNameKey,
+    pokemonPlayerXKey,
+    pokemonPlayerYKey,
+    pokemonPlayerWidthKey,
+    pokemonPlayerHeightKey,
+    pokemonOpposingXKey,
+    pokemonOpposingYKey,
+    pokemonOpposingWidthKey,
+    pokemonOpposingHeightKey,
+    pokemonHealthPointsKey,
+    pokemonPhysicalAttackKey,
+    pokemonSpecialAttackKey,
+    pokemonPhysicalDefenceKey,
+    pokemonSpecialDefenceKey,
+    pokemonSpeedKey
+
+};
 struct Pokemon {
   // When created in pokedex
   Pokemon(Config config) {
@@ -28,6 +48,13 @@ struct Pokemon {
       throw std::invalid_argument("Invalid pokemon configuration");
     }
     name = config[pokemonNameKey];
+    healthPoints = std::stoi(config[pokemonHealthPointsKey]);
+    physicalAttack = std::stoi(config[pokemonPhysicalAttackKey]);
+    specialAttack = std::stoi(config[pokemonSpecialAttackKey]);
+    physicalDefence = std::stoi(config[pokemonPhysicalDefenceKey]);
+    specicialDefence = std::stoi(config[pokemonSpecialDefenceKey]);
+    speed = std::stoi(config[pokemonSpeedKey]);
+
     Sprite *spriteSheet = spriteSheetStore[config["spritesheet"]];
     if (spriteSheet != nullptr) {
       playerBattleSprite =
@@ -42,8 +69,9 @@ struct Pokemon {
                                   std::stoi(config[pokemonOpposingHeightKey]));
     }
     // Get the available moveset
-    for(std::string moveName: config.keys("availablemoves")){
-      if(pokedex.availableMoves.find(moveName) != pokedex.availableMoves.end()){
+    for (std::string moveName : config.keys("availablemoves")) {
+      if (pokedex.availableMoves.find(moveName) !=
+          pokedex.availableMoves.end()) {
         availableMoves.push_back(pokedex.availableMoves[moveName]);
       }
     }
@@ -59,12 +87,22 @@ struct Pokemon {
       availableMoves = config.availableMoves;
     }
   }
-  // For the config
   std::string name;
+  // stats
+  int healthPoints;
+  int physicalAttack;
+  int specialAttack;
+  int physicalDefence;
+  int specicialDefence;
+  int speed;
+  // In battle stats
+  int evasion = 100;
+  int accuracy = 100;
   Sprite *playerBattleSprite;
   Sprite *opposingBattleSprite;
-  std::vector<Move*> availableMoves;
+  std::vector<Move *> availableMoves;
   // For an instance of a pokemon
+  int level = 1;
   float maxHP = 0;
   float HP = 0;
 };
