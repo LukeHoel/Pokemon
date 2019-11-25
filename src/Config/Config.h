@@ -17,6 +17,7 @@ class Config {
   }
 
 public:
+  Config() {}
   // Go through each line and extract out a config object
   // It uses the first equals sign in the line to switch from key mode to value
   // mode. Values can have equals signs in them, while keys cannot
@@ -77,6 +78,14 @@ public:
       addToMap(section, key, value);
     }
     ifs.close();
+  }
+  // Get the section as a config object in of itself
+  Config subConfig(std::string section = "global") {
+    Config ret;
+    for (const std::string &key : keys(section)) {
+      ret.addToMap("global", key, this->section(section)[key]);
+    }
+    return ret;
   }
   // Get reference to specific section
   std::unordered_map<std::string, std::string>

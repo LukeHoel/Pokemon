@@ -5,10 +5,10 @@
 #include <string>
 #include "Move.h"
 #include "../Config/Config.h"
-struct Pokemon;
+struct PokemonSpecies;
 struct Pokedex{
   std::unordered_map<std::string, Move*> availableMoves;
-  std::unordered_map<std::string, Pokemon*> availablePokemon;
+  std::unordered_map<std::string, PokemonSpecies*> availablePokemon;
 };
 Pokedex pokedex;
 #endif

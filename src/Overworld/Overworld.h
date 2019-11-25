@@ -43,7 +43,7 @@ void drawOverworld(float deltaTime) {
   player.Draw();
   movePlayer(deltaTime);
   if (context->GetKey(olc::Key::ENTER).bPressed) {
-    StartBattle();
+    StartBattle(Config("config/trainers/blue.config"));
   }
   // Camera follow
   camera.x = player.x;

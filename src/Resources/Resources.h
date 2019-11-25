@@ -8,7 +8,9 @@ std::string spriteSheets("resources/spriteSheets/");
 #include "Fonts/fireRedBattleEffectFont.h"
 #include "../GameLogic/Pokedex.h"
 #include "../GameLogic/Pokemon.h"
+#include "../GameLogic/PokemonSpecies.h"
 #include "../GameLogic/Move.h"
+#include "../GameLogic/Trainer.h"
 // Tiles
 Sprite *grassSprite;
 // Player
@@ -33,8 +35,9 @@ void LoadResources() {
   // Get the move configs
   for(std::string moveKeyName: movesConfig.keys()){ pokedex.availableMoves[moveKeyName] = new Move(Config(movesConfig[moveKeyName])); }
   // Get the pokemon configs
-  for(std::string pokemonKeyName: pokedexConfig.keys()) { pokedex.availablePokemon[pokemonKeyName] = new Pokemon(Config(pokedexConfig[pokemonKeyName])); }
-
+  for(std::string pokemonKeyName: pokedexConfig.keys()) { pokedex.availablePokemon[pokemonKeyName] = new PokemonSpecies(Config(pokedexConfig[pokemonKeyName])); }
+  // Load the player config from save
+  playerTrainer = Trainer(Config("saveGame/player.config"));
   LoadBattleBackgrounds();
   LoadFireRedBattleEffectFont();
   grassSprite = spriteSheetStore["tileset1"]->getPartial(6, 64, tileSize, tileSize);

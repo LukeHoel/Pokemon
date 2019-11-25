@@ -34,13 +34,6 @@ public:
     player.downSprite = playerDownSprite;
     player.leftSprite = playerLeftSprite;
     player.rightSprite = playerRightSprite;
-    // Register the current pokemon
-    playerCurrentPokemon = Pokemon("charmander");
-    playerCurrentPokemon.level = 20;
-    playerCurrentPokemon.HP = playerCurrentPokemon.maxHP()/2;
-    opposingCurrentPokemon = Pokemon("bulbasaur");
-    opposingCurrentPokemon.level = 20;
-    opposingCurrentPokemon.HP = opposingCurrentPokemon.maxHP();
     return true;
   }
 

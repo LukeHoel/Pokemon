@@ -1,6 +1,7 @@
 #ifndef battle_h
 #define battle_h
 #include "../GameLogic/Pokemon.h"
+#include "../GameLogic/Trainer.h"
 #include "../Menu.h"
 
 int infoWidth = 100;
@@ -14,6 +15,8 @@ int opposingPokemonBaseY = 65;
 Menu battleMainMenu;
 Menu playerFightMenu;
 
+Trainer *opposingTrainer;
+
 void Run() { mode = Mode::OVERWORLD; }
 
 void Fight() {
@@ -26,16 +29,12 @@ void Back() {
   playerFightMenu.Reset();
 }
 
-void StartBattle() {
-  mode = Mode::BATTLE;
-  battleMainMenu = Menu(&fireRedBattleEffectFont,
-                        {{"FIGHT", Fight}, {"BAG"}, {"POKEMON"}, {"RUN", Run}});
-  battleMainMenu.active = true;
+void constructMovesMenu(Pokemon *playerPokemon, Pokemon *opposingPokemon) {
   std::vector<MenuItem> moves;
 
-  for (Move *move : playerCurrentPokemon.availableMoves) {
-    auto function = [move](void) {
-      playerCurrentPokemon.attack(opposingCurrentPokemon, *move);
+  for (Move *move : playerPokemon->species.availableMoves) {
+    auto function = [move, playerPokemon, opposingPokemon](void) {
+      playerPokemon->attack(*opposingPokemon, *move);
     };
     MenuItem item;
     item.displayName = move->name;
@@ -45,10 +44,21 @@ void StartBattle() {
   moves.push_back({"BACK", Back});
   playerFightMenu = Menu(&fireRedBattleEffectFont, moves);
 }
-void drawPokemonInfo(int x, int y, Pokemon pokemon) {
+
+// Contruct the menus based on the users
+void StartBattle(Config config) {
+  opposingTrainer = new Trainer(config);
+  mode = Mode::BATTLE;
+  battleMainMenu = Menu(&fireRedBattleEffectFont,
+                        {{"FIGHT", Fight}, {"BAG"}, {"POKEMON"}, {"RUN", Run}});
+  battleMainMenu.active = true;
+  constructMovesMenu(&playerTrainer.team.members[0],
+                     &opposingTrainer->team.members[0]);
+}
+void drawPokemonInfo(int x, int y, Pokemon &pokemon) {
   // White background
   context->FillRect(x, y, infoWidth, infoHeight, olc::WHITE);
-  DrawSpriteString(pokemon.name, x + 1, y + 1, fireRedBattleEffectFont);
+  DrawSpriteString(pokemon.species.name, x + 1, y + 1, fireRedBattleEffectFont);
   DrawSpriteString(std::to_string(pokemon.level), x + infoWidth - 20, y + 1,
                    fireRedBattleEffectFont);
   // Grey background to bar
@@ -64,17 +74,21 @@ void drawBattle(float deltaTime) {
   // Info area for each pokemon
   drawPokemonInfo(amountPixelsX - infoWidth,
                   amountPixelsY - textAreaHeight - infoHeight,
-                  playerCurrentPokemon);
-  drawPokemonInfo(0, 0, opposingCurrentPokemon);
-  // Draw pokemon sprites
-  playerCurrentPokemon.playerBattleSprite->Draw(
-      playerPokemonBaseX - playerCurrentPokemon.playerBattleSprite->width() / 2,
-      playerPokemonBaseY - playerCurrentPokemon.playerBattleSprite->height());
-  opposingCurrentPokemon.opposingBattleSprite->Draw(
-      opposingPokemonBaseX -
-          opposingCurrentPokemon.opposingBattleSprite->width() / 2,
-      opposingPokemonBaseY -
-          opposingCurrentPokemon.opposingBattleSprite->height());
+                  playerTrainer.team.members[0]);
+  drawPokemonInfo(0, 0, opposingTrainer->team.members[0]);
+  //  Draw pokemon sprites
+  playerTrainer.team.members[0].species.playerBattleSprite->Draw(
+      playerPokemonBaseX -
+          playerTrainer.team.members[0].species.playerBattleSprite->width() /
+              2,
+      playerPokemonBaseY -
+          playerTrainer.team.members[0].species.playerBattleSprite->height());
+  opposingTrainer->team.members[0].species.opposingBattleSprite->Draw(
+      opposingPokemonBaseX - opposingTrainer->team.members[0]
+                                     .species.opposingBattleSprite->width() /
+                                 2,
+      opposingPokemonBaseY - opposingTrainer->team.members[0]
+                                 .species.opposingBattleSprite->height());
   // Text area
   context->FillRect(0, amountPixelsY - textAreaHeight, amountPixelsX - 1,
                     textAreaHeight - 1, olc::GREY);
