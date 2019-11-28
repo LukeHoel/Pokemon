@@ -17,5 +17,4 @@ struct Trainer {
     }
   }
 };
-Trainer playerTrainer;
 #endif

@@ -1,7 +1,9 @@
-#ifndef battle_h
-#define battle_h
+#ifndef battle_frontend_h
+#define battle_frontend_h
+#include "../GameLogic/Battle.h"
 #include "../GameLogic/Pokemon.h"
 #include "../GameLogic/Trainer.h"
+#include "../Globals.h"
 #include "../Menu.h"
 
 int infoWidth = 100;
@@ -15,9 +17,10 @@ int opposingPokemonBaseY = 65;
 Menu battleMainMenu;
 Menu playerFightMenu;
 
-Trainer *opposingTrainer;
-
-void Run() { mode = Mode::OVERWORLD; }
+void Run() {
+  currentBattle->battleStepQueue.push(
+      BattleStep(&playerTrainer, BattleStep::RUN));
+}
 
 void Fight() {
   playerFightMenu.active = true;
@@ -34,7 +37,14 @@ void constructMovesMenu(Pokemon *playerPokemon, Pokemon *opposingPokemon) {
 
   for (Move *move : playerPokemon->species.availableMoves) {
     auto function = [move, playerPokemon, opposingPokemon](void) {
-      playerPokemon->attack(*opposingPokemon, *move);
+      currentBattle->battleStepQueue.push(
+          BattleStep(&playerTrainer, BattleStep::USEMOVE, move));
+      // Choose a random move to execute
+      currentBattle->battleStepQueue.push(BattleStep(
+          &opposingTrainer, BattleStep::USEMOVE,
+          opposingPokemon->species
+              .availableMoves[rand() %
+                              opposingPokemon->species.availableMoves.size()]));
     };
     MenuItem item;
     item.displayName = move->name;
@@ -46,14 +56,13 @@ void constructMovesMenu(Pokemon *playerPokemon, Pokemon *opposingPokemon) {
 }
 
 // Contruct the menus based on the users
-void StartBattle(Config config) {
-  opposingTrainer = new Trainer(config);
+void StartBattle() {
   mode = Mode::BATTLE;
   battleMainMenu = Menu(&fireRedBattleEffectFont,
                         {{"FIGHT", Fight}, {"BAG"}, {"POKEMON"}, {"RUN", Run}});
   battleMainMenu.active = true;
   constructMovesMenu(&playerTrainer.team.members[0],
-                     &opposingTrainer->team.members[0]);
+                     &opposingTrainer.team.members[0]);
 }
 void drawPokemonInfo(int x, int y, Pokemon &pokemon) {
   // White background
@@ -75,19 +84,18 @@ void drawBattle(float deltaTime) {
   drawPokemonInfo(amountPixelsX - infoWidth,
                   amountPixelsY - textAreaHeight - infoHeight,
                   playerTrainer.team.members[0]);
-  drawPokemonInfo(0, 0, opposingTrainer->team.members[0]);
+  drawPokemonInfo(0, 0, opposingTrainer.team.members[0]);
   //  Draw pokemon sprites
   playerTrainer.team.members[0].species.playerBattleSprite->Draw(
       playerPokemonBaseX -
-          playerTrainer.team.members[0].species.playerBattleSprite->width() /
-              2,
+          playerTrainer.team.members[0].species.playerBattleSprite->width() / 2,
       playerPokemonBaseY -
           playerTrainer.team.members[0].species.playerBattleSprite->height());
-  opposingTrainer->team.members[0].species.opposingBattleSprite->Draw(
-      opposingPokemonBaseX - opposingTrainer->team.members[0]
+  opposingTrainer.team.members[0].species.opposingBattleSprite->Draw(
+      opposingPokemonBaseX - opposingTrainer.team.members[0]
                                      .species.opposingBattleSprite->width() /
                                  2,
-      opposingPokemonBaseY - opposingTrainer->team.members[0]
+      opposingPokemonBaseY - opposingTrainer.team.members[0]
                                  .species.opposingBattleSprite->height());
   // Text area
   context->FillRect(0, amountPixelsY - textAreaHeight, amountPixelsX - 1,

@@ -11,6 +11,7 @@ std::string spriteSheets("resources/spriteSheets/");
 #include "../GameLogic/PokemonSpecies.h"
 #include "../GameLogic/Move.h"
 #include "../GameLogic/Trainer.h"
+#include "../Globals.h"
 // Tiles
 Sprite *grassSprite;
 // Player

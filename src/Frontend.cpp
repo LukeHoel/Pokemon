@@ -16,11 +16,12 @@ Mode mode = OVERWORLD;
 #include "Resources/Resources.h"
 #include "Overworld/Tile.h"
 #include "Overworld/Overworld.h"
-#include "Battle/Battle.h"
+#include "Battle/BattleFrontend.h"
+#include "Globals.h"
 // clang-format on
 class Frontend : public olc::PixelGameEngine {
-
 public:
+
   Frontend() { sAppName = "Frontend"; }
   bool OnUserCreate() override {
     LoadResources();
@@ -42,10 +43,18 @@ public:
     switch (mode) {
     case (Mode::OVERWORLD):
       drawOverworld(deltaTime);
-      DrawSpriteString("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,0123456789", 1, 30, fireRedBattleEffectFont);
+      DrawSpriteString("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,0123456789", 1, 30,
+                       fireRedBattleEffectFont);
       break;
     case (Mode::BATTLE):
-      drawBattle(deltaTime);
+      if (!currentBattle->over) {
+        currentBattle->step();
+        drawBattle(deltaTime);
+      } else {
+        std::cout << currentBattle->winner->name << " won!" << std::endl;
+        mode = Mode::OVERWORLD;
+        delete currentBattle;
+      }
       break;
     }
     return true;

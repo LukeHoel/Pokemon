@@ -3,7 +3,8 @@
 #include "../Sprite.h"
 #include "Camera.h"
 #include "OverworldEntity.h"
-#include "../Battle/Battle.h"
+#include "../Battle/BattleFrontend.h"
+#include "../GameLogic/Battle.h"
 
 void drawTiles() {
   for (int i = 0; i < 50; i++) {
@@ -43,7 +44,9 @@ void drawOverworld(float deltaTime) {
   player.Draw();
   movePlayer(deltaTime);
   if (context->GetKey(olc::Key::ENTER).bPressed) {
-    StartBattle(Config("config/trainers/blue.config"));
+    opposingTrainer = Trainer(Config("config/trainers/blue.config"));
+    currentBattle = new Battle(&playerTrainer, &opposingTrainer);
+    StartBattle();
   }
   // Camera follow
   camera.x = player.x;
